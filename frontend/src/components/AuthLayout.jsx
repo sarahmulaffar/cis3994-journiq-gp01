@@ -1,5 +1,5 @@
 
-import journiqLogo from '../assets/journiq-logo.jpg'
+import journiqLogo from '../assets/journiq-logo.jpeg'
 
 function AuthLayout({ title, subtitle, children, footer }) {
   return (

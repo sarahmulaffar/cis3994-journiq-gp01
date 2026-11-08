@@ -1,7 +1,7 @@
 
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
-import journiqLogo from '../assets/journiq-logo.jpg'
+import journiqLogo from '../assets/journiq-logo.jpeg'
 
 function Dashboard() {
   const { user, logout } = useAuth()
