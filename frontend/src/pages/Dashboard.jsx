@@ -23,10 +23,10 @@ function Dashboard() {
 
         <div className="mb-14">
   <img
-    src={journiqLogo}
-    alt="Journiq Logo"
-    className="h-16 w-auto object-contain"
-  />
+  src={journiqLogo}
+  alt="Journiq Logo"
+  className="h-16 w-16 rounded-full object-cover"
+/>
 
   <p className="mt-3 text-xs tracking-[0.2em] text-sky-200">
     JOURNEY SMART, TRAVEL UNIQUE
