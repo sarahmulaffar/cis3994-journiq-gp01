@@ -21,14 +21,14 @@ function Dashboard() {
       {/* Sidebar */}
       <aside className="fixed left-0 top-0 z-20 hidden h-screen w-64 flex-col bg-[#102d4e] p-7 text-white md:flex">
 
-        <div className="mb-14">
+        <div className="mb-14 flex flex-col items-center">
   <img
-  src={journiqLogo}
-  alt="Journiq Logo"
-  className="h-16 w-16 rounded-full object-cover"
-/>
+    src={journiqLogo}
+    alt="Journiq Logo"
+    className="h-20 w-20 rounded-full object-contain bg-white p-1"
+  />
 
-  <p className="mt-3 text-xs tracking-[0.2em] text-sky-200">
+  <p className="mt-3 text-center text-xs tracking-[0.2em] text-sky-200">
     JOURNEY SMART, TRAVEL UNIQUE
   </p>
 </div>
