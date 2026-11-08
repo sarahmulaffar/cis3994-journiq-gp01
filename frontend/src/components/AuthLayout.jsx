@@ -1,4 +1,6 @@
 
+import journiqLogo from '../assets/journiq-logo.jpg'
+
 function AuthLayout({ title, subtitle, children, footer }) {
   return (
     <main
@@ -15,9 +17,11 @@ function AuthLayout({ title, subtitle, children, footer }) {
       <section className="relative z-10 w-full max-w-md rounded-2xl border border-white/50 bg-white/90 p-8 shadow-2xl backdrop-blur-md sm:p-10">
 
         <div className="mb-8 text-center">
-          <h1 className="font-serif text-4xl font-bold tracking-wide text-[#102d4e]">
-            Journiq
-          </h1>
+          <img
+            src={journiqLogo}
+            alt="Journiq Logo"
+            className="mx-auto mb-3 h-20 w-auto object-contain"
+          />
 
           <p className="mt-2 text-xs uppercase tracking-[0.25em] text-[#64839e]">
             Journey smart, travel unique

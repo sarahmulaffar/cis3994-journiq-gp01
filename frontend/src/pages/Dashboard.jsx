@@ -1,6 +1,7 @@
 
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import journiqLogo from '../assets/journiq-logo.jpg'
 
 function Dashboard() {
   const { user, logout } = useAuth()
@@ -21,13 +22,16 @@ function Dashboard() {
       <aside className="fixed left-0 top-0 z-20 hidden h-screen w-64 flex-col bg-[#102d4e] p-7 text-white md:flex">
 
         <div className="mb-14">
-          <h1 className="font-serif text-3xl font-bold tracking-wide">
-            Journiq
-          </h1>
-          <p className="mt-2 text-xs tracking-[0.2em] text-sky-200">
-            JOURNEY SMART, TRAVEL UNIQUE
-          </p>
-        </div>
+  <img
+    src={journiqLogo}
+    alt="Journiq Logo"
+    className="h-16 w-auto object-contain"
+  />
+
+  <p className="mt-3 text-xs tracking-[0.2em] text-sky-200">
+    JOURNEY SMART, TRAVEL UNIQUE
+  </p>
+</div>
 
         <nav>
           <div className="rounded-xl bg-white/15 px-5 py-4 font-medium">
