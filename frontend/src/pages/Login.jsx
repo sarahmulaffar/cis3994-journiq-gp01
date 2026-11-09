@@ -1,11 +1,14 @@
+
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
 import { useAuth } from '../context/AuthContext'
+import { authApi } from '../services/api'
 
 function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     emailOrUsername: '',
     password: '',
@@ -25,37 +28,44 @@ function Login() {
     setSuccess('')
   }
 
-const handleSubmit = (e) => {
-  e.preventDefault()
-  setError('')
-  setSuccess('')
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError('')
+    setSuccess('')
 
-  if (!formData.emailOrUsername.trim() || !formData.password) {
-    setError('Please enter your details to Log In.')
-    return
-  }
+    const email = formData.emailOrUsername.trim()
 
-  if (formData.password.length < 8) {
-    setError('Password must contain at least 8 characters.')
-    return
-  }
-
-  setLoading(true)
-
-  // Temporary mock login for frontend testing.
-  setTimeout(() => {
-    const userData = {
-      emailOrUsername: formData.emailOrUsername,
+    if (!email || !formData.password) {
+      setError('Please enter your email and password.')
+      return
     }
 
-    login(userData)
-    setLoading(false)
-    navigate('/dashboard')
-  }, 700)
-}
+    if (formData.password.length < 8) {
+      setError('Password must contain at least 8 characters.')
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      const result = await authApi.login({
+        email,
+        password: formData.password,
+      })
+
+      login(result.data)
+
+      navigate('/dashboard')
+    } catch (err) {
+      setError(err.message || 'Login failed. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleForgotPassword = () => {
     setError('')
-    setSuccess('Password recovery will be available once the authentication API is connected.')
+    setSuccess('Password recovery is not available yet.')
   }
 
   return (
@@ -77,15 +87,15 @@ const handleSubmit = (e) => {
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label className="mb-2 block text-sm font-medium text-[#29445e]">
-            E-mail / Username
+            E-mail
           </label>
 
           <input
-            type="text"
+            type="email"
             name="emailOrUsername"
             value={formData.emailOrUsername}
             onChange={handleChange}
-            placeholder="Enter your e-mail or username"
+            placeholder="Enter your e-mail"
             disabled={loading}
             className="w-full rounded-lg border border-[#bdcbd7] bg-white/80 px-4 py-3 text-sm outline-none transition focus:border-[#173e62] focus:ring-2 focus:ring-[#173e62]/15"
           />
@@ -152,4 +162,3 @@ const handleSubmit = (e) => {
 }
 
 export default Login
-
