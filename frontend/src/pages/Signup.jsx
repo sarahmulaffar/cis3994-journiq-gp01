@@ -1,10 +1,14 @@
 
-
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
+import { authApi } from '../services/api'
+import { useAuth } from '../context/AuthContext'
 
 function Signup() {
+  const { login } = useAuth()
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -39,7 +43,7 @@ function Signup() {
     setSuccess('')
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
     setSuccess('')
@@ -54,7 +58,9 @@ function Signup() {
       return
     }
 
-    if (!/^(?:\+94|0)?7\d{8}$/.test(formData.contactNo.replace(/[\s-]/g, ''))) {
+    const cleanedContactNo = formData.contactNo.replace(/[\s-]/g, '')
+
+    if (!/^(?:\+94|0)?7\d{8}$/.test(cleanedContactNo)) {
       setError('Please enter a valid Sri Lankan mobile number.')
       return
     }
@@ -76,12 +82,27 @@ function Signup() {
 
     setLoading(true)
 
-    // Temporary frontend-only success feedback.
-    // No account is created until the registration API is connected.
-    setTimeout(() => {
+    try {
+      const result = await authApi.register({
+        fullName: formData.name.trim(),
+        email: formData.email.trim(),
+        password: formData.password,
+      })
+
+      if (result.data?.accessToken && result.data?.user) {
+        login(result.data)
+        navigate('/dashboard')
+      } else {
+        setSuccess(
+          result.message ||
+          'Registration successful! Please check your email to verify your account, then log in.'
+        )
+      }
+    } catch (err) {
+      setError(err.message || 'Registration failed. Please try again.')
+    } finally {
       setLoading(false)
-      setSuccess('Your form is valid! Registration will be available once the API is connected.')
-    }, 700)
+    }
   }
 
   return (
@@ -102,7 +123,9 @@ function Signup() {
     >
       <form onSubmit={handleSubmit} className="space-y-3">
         {fields.map((field) => {
-          const isPassword = field.name === 'password' || field.name === 'confirmPassword'
+          const isPassword =
+            field.name === 'password' ||
+            field.name === 'confirmPassword'
 
           return (
             <div key={field.name}>

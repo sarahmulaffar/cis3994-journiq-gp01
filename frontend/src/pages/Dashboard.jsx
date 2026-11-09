@@ -13,7 +13,11 @@ function Dashboard() {
   }
 
   const displayName =
-    user?.name || user?.emailOrUsername || 'Traveler'
+  user?.user_metadata?.full_name ||
+  user?.full_name ||
+  user?.name ||
+  user?.email?.split('@')[0] ||
+  'Traveler'
 
   return (
     <div className="min-h-screen bg-[#f3f7fb] text-[#173653]">
